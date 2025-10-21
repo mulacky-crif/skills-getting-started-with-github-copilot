@@ -193,6 +193,13 @@ class TestUnregisterFromActivity:
     
     def test_unregister_existing_participant(self, client, reset_activities):
         """Test unregistering an existing participant."""
+        # Ensure Chess Club has at least one participant
+        seed_email = "seeded@mergington.edu"
+        signup_response = client.post(
+            f"/activities/Chess Club/signup?email={seed_email}"
+        )
+        assert signup_response.status_code == 200
+
         # Get current participants
         activities_response = client.get("/activities")
         activities_data = activities_response.json()
